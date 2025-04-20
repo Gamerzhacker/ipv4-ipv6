@@ -94,7 +94,6 @@ async def nodeadmin(ctx):
 async def removeall(ctx):
     if ctx.author.id != ADMIN_ID:
         return await ctx.send("Unauthorized.")
-    
     for user, vps_list in vps_db.items():
         for vps in vps_list:
             if vps["container"] != 'manual':
