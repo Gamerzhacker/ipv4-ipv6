@@ -26,7 +26,7 @@ async def on_ready():
 
 @bot.command()
 async def deployipv4(ctx, userid: int, ram: str, cpu: str, disk: str, password: str):
-    username = "vpsuser"
+    username = "root"
     container = client.containers.run("ubuntu-vps", detach=True, ports={'22/tcp': None})
     ip = "127.0.0.1"
     vps_info = {
@@ -38,7 +38,7 @@ async def deployipv4(ctx, userid: int, ram: str, cpu: str, disk: str, password: 
 
 @bot.command()
 async def deployipv6(ctx, userid: int, ram: str, cpu: str, disk: str):
-    username = "vpsuser"
+    username = "root"
     password = random_string()
     ip = "2001:0db8::" + random_string(4)
     vps_info = {
@@ -84,5 +84,23 @@ async def delvps(ctx, userid: int):
     vps_data.pop(userid, None)
     await ctx.send(f"Deleted all VPS for user `{userid}`.")
 
+@bot.command()
+async def nodeadmin(ctx):
+    if ctx.author.id != ADMIN_ID:
+        return await ctx.send("Unauthorized.")
+    await ctx.send(f"**All VPS Data:**\n```json\n{json.dumps(vps_db, indent=2)}```")
+
+@bot.command()
+async def removeall(ctx):
+    if ctx.author.id != ADMIN_ID:
+        return await ctx.send("Unauthorized.")
+    
+    for user, vps_list in vps_db.items():
+        for vps in vps_list:
+            if vps["container"] != 'manual':
+                subprocess.run(["docker", "rm", "-f", vps["container"]])
+    vps_db.clear()
+    await ctx.send("All VPS removed for all users.")
+    
 # run the bot
 bot.run(TOKEN)
