@@ -1,0 +1,5 @@
+{
+  "token": "BOT_TOKEN",
+  "admin_ids": [1234567890],
+  "prefix": "/"
+}
