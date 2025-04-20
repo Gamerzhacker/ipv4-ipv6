@@ -74,7 +74,7 @@ async def botadmin(ctx):
 
 @bot.command()
 async def botinfo(ctx):
-    dev = "<@1234567890>"  # Replace with your ID
+    dev = "<@1258646055860568094>"  # Replace with your ID
     await ctx.send(f"Bot Developer: {dev}\nDocker VPS Bot - v1.0\nIPv4 & IPv6, SSH, Port Control, Admin Panel.")
 
 @bot.command()
